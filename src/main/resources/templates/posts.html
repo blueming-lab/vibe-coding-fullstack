@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Post List | Vibe Coding</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-dark": "#0a0c10",
+                        "surface-dark": "#161b22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0c10;
+        }
+
+        .glass-effect {
+            background: rgba(25, 38, 51, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bg-mesh {
+            background-image:
+                radial-gradient(at 0% 0%, rgba(19, 127, 236, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+        }
+
+        .table-row-hover:hover {
+            background: rgba(255, 255, 255, 0.03);
+            transition: background 0.2s;
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-slate-100 selection:bg-primary/30 min-h-screen bg-mesh">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Navigation -->
+        <header class="glass-effect border-b border-white/5 px-6 lg:px-20 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <a href="/"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-2xl">auto_awesome</span>
+                </a>
+                <h2 class="text-xl font-extrabold tracking-tight text-white">Vibe Coding</h2>
+            </div>
+            <nav class="flex items-center gap-6">
+                <a href="/" class="text-sm font-semibold text-slate-300 hover:text-primary transition-colors">Home</a>
+                <a href="/posts" class="text-sm font-semibold text-primary transition-colors">Posts</a>
+            </nav>
+        </header>
+
+        <main class="flex-1 py-16 px-6 lg:px-20">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-12">
+                    <h1 class="text-4xl font-black mb-4 tracking-tight">Board <span class="text-primary">Posts</span>
+                    </h1>
+                    <p class="text-slate-400 font-medium">Browse through the latest discussions and updates from the
+                        Vibe community.</p>
+                </div>
+
+                <div class="glass-effect rounded-2xl overflow-hidden border border-white/5">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white/5 border-b border-white/10">
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">No.</th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Title
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Date
+                                </th>
+                                <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Views
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr th:each="post : ${posts}" class="table-row-hover group">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-400" th:text="${post.no}">1</td>
+                                <td class="px-6 py-4">
+                                    <a th:href="@{/posts/{no}(no=${post.no})}"
+                                        class="text-base font-semibold text-slate-100 group-hover:text-primary transition-colors"
+                                        th:text="${post.title}">
+                                        Sample Post Title
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-slate-400"
+                                    th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">
+                                    2024-02-23 16:00
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
+                                        <span class="material-symbols-outlined text-xs">visibility</span>
+                                        <span th:text="${post.views}">42</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-8 flex justify-center">
+                    <button
+                        class="px-6 py-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                        Write New Post
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 py-12 px-6 lg:px-20 glass-effect mt-20">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <div class="flex h-8 w-8 items-center justify-center rounded bg-primary text-white">
+                        <span class="material-symbols-outlined text-lg">auto_awesome</span>
+                    </div>
+                    <h2 class="text-lg font-bold tracking-tight text-white">Vibe Coding</h2>
+                </div>
+                <div class="text-sm text-slate-500">
+                    © 2026 Vibe Coding. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
