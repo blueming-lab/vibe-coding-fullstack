@@ -74,10 +74,10 @@
                 </div>
 
                 <div class="glass-effect rounded-3xl p-8 md:p-10 border border-white/5 shadow-2xl">
-                    <form onsubmit="alert('새 게시글 등록'); return false;" class="space-y-8">
+                    <form action="/posts/add" method="post" class="space-y-8">
                         <div>
                             <label for="title" class="block text-sm font-bold text-slate-300 mb-3 ml-1">Title</label>
-                            <input type="text" id="title" required
+                            <input type="text" id="title" name="title" required
                                 class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-lg font-semibold"
                                 placeholder="Enter a catchy title...">
                         </div>
@@ -85,7 +85,7 @@
                         <div>
                             <label for="content"
                                 class="block text-sm font-bold text-slate-300 mb-3 ml-1">Content</label>
-                            <textarea id="content" required rows="10"
+                            <textarea id="content" name="content" required rows="10"
                                 class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-lg resize-none"
                                 placeholder="Write your post content here..."></textarea>
                         </div>
