@@ -96,10 +96,17 @@
                         </div>
                     </div>
 
-                    <h1 class="text-3xl md:text-5xl font-black mb-8 leading-tight tracking-tight text-white"
+                    <h1 class="text-3xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-white"
                         th:text="${post.title}">
                         Sample Post Title
                     </h1>
+
+                    <!-- Tags Display -->
+                    <div th:if="${post.tags != null and !post.tags.isEmpty()}" class="flex flex-wrap gap-2 mb-8">
+                        <span th:each="tag : ${#strings.arraySplit(post.tags, ',')}"
+                            class="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold hover:bg-primary/20 transition-colors cursor-default"
+                            th:text="'#' + ${tag.trim()}">#Tag</span>
+                    </div>
 
                     <div class="prose prose-invert max-w-none">
                         <div class="text-slate-300 leading-relaxed text-lg whitespace-pre-wrap"
