@@ -16,7 +16,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String list(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+    public String getPosts(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         int pageSize = 5;
         model.addAttribute("posts", postService.getPostsByPage(page, pageSize));
         model.addAttribute("currentPage", page);
@@ -25,8 +25,8 @@ public class PostController {
     }
 
     @GetMapping("/posts/{no}")
-    public String detail(@PathVariable("no") Long no, Model model) {
-        Post post = postService.getPostByNo(no);
+    public String getPost(@PathVariable("no") Long no, Model model) {
+        Post post = postService.getPost(no);
         if (post == null) {
             return "redirect:/posts";
         }
@@ -35,13 +35,13 @@ public class PostController {
     }
 
     @GetMapping("/posts/new")
-    public String newForm() {
+    public String showCreateForm() {
         return "post/post_new_form";
     }
 
     @GetMapping("/posts/{no}/edit")
-    public String editForm(@PathVariable("no") Long no, Model model) {
-        Post post = postService.getPostByNo(no);
+    public String showEditForm(@PathVariable("no") Long no, Model model) {
+        Post post = postService.getPost(no);
         if (post == null) {
             return "redirect:/posts";
         }
@@ -50,20 +50,20 @@ public class PostController {
     }
 
     @PostMapping("/posts/{no}/save")
-    public String save(@PathVariable("no") Long no, @RequestParam("title") String title,
+    public String updatePost(@PathVariable("no") Long no, @RequestParam("title") String title,
             @RequestParam("content") String content) {
         postService.updatePost(no, title, content);
         return "redirect:/posts/" + no;
     }
 
     @GetMapping("/posts/{no}/delete")
-    public String delete(@PathVariable("no") Long no) {
+    public String deletePost(@PathVariable("no") Long no) {
         postService.deletePost(no);
         return "redirect:/posts";
     }
 
     @PostMapping("/posts/add")
-    public String add(@RequestParam("title") String title, @RequestParam("content") String content) {
+    public String createPost(@RequestParam("title") String title, @RequestParam("content") String content) {
         postService.createPost(title, content);
         return "redirect:/posts";
     }

@@ -29,7 +29,7 @@ public class PostService {
         return (int) Math.ceil((double) totalPosts / size);
     }
 
-    public Post getPostByNo(Long no) {
+    public Post getPost(Long no) {
         return postRepository.findById(no);
     }
 
