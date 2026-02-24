@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -74,18 +74,21 @@
                 </div>
 
                 <div class="glass-effect rounded-3xl p-8 md:p-10 border border-white/5 shadow-2xl">
-                    <form action="/posts/add" method="post" class="space-y-8">
+                    <form th:action="@{/posts/add}" th:object="${postCreateDto}" method="post" class="space-y-8">
                         <div>
                             <label for="title" class="block text-sm font-bold text-slate-300 mb-3 ml-1">Title</label>
-                            <input type="text" id="title" name="title" required
+                            <input type="text" th:field="*{title}" id="title"
                                 class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-lg font-semibold"
+                                th:classappend="${#fields.hasErrors('title')} ? 'border-red-500/50 ring-2 ring-red-500/20' : ''"
                                 placeholder="Enter a catchy title...">
+                            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                                class="mt-2 text-sm text-red-400 font-medium ml-1">Error message</p>
                         </div>
 
                         <div>
                             <label for="content"
                                 class="block text-sm font-bold text-slate-300 mb-3 ml-1">Content</label>
-                            <textarea id="content" name="content" required rows="10"
+                            <textarea th:field="*{content}" id="content" rows="10"
                                 class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-lg resize-none"
                                 placeholder="Write your post content here..."></textarea>
                         </div>

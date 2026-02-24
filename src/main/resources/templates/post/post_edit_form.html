@@ -101,7 +101,8 @@
                         Edit Post
                     </h1>
 
-                    <form th:action="@{/posts/{no}/save(no=${post.no})}" method="post" class="space-y-8">
+                    <form th:action="@{/posts/{no}/save(no=${no})}" th:object="${postUpdateDto}" method="post"
+                        class="space-y-8">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Read Only: No -->
                             <div>
@@ -133,17 +134,20 @@
                         <!-- Editable: Title -->
                         <div>
                             <label class="block text-sm font-bold text-slate-400 mb-2">Title</label>
-                            <input type="text" name="title"
+                            <input type="text" th:field="*{title}"
                                 class="w-full rounded-xl p-4 input-glass focus:ring-2 focus:ring-primary/20 outline-none"
-                                th:value="${post.title}" placeholder="Enter title">
+                                th:classappend="${#fields.hasErrors('title')} ? 'border-red-500/50 ring-2 ring-red-500/10' : ''"
+                                placeholder="Enter title">
+                            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                                class="mt-2 text-sm text-red-400 font-medium">Error message</p>
                         </div>
 
                         <!-- Editable: Content -->
                         <div>
                             <label class="block text-sm font-bold text-slate-400 mb-2">Content</label>
-                            <textarea name="content" rows="8"
+                            <textarea th:field="*{content}" rows="8"
                                 class="w-full rounded-xl p-4 input-glass focus:ring-2 focus:ring-primary/20 outline-none resize-none"
-                                th:text="${post.content}" placeholder="Enter content"></textarea>
+                                placeholder="Enter content"></textarea>
                         </div>
 
                         <!-- Buttons -->
