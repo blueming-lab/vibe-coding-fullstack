@@ -35,4 +35,8 @@ public class PostService {
     public void updatePost(Long no, String title, String content) {
         postRepository.update(no, title, content);
     }
+
+    public void deletePost(Long no) {
+        postRepository.delete(no);
+    }
 }

@@ -55,4 +55,8 @@ public class PostRepository {
                     post.setUpdatedAt(LocalDateTime.now());
                 });
     }
+
+    public void delete(Long no) {
+        posts.removeIf(post -> post.getNo().equals(no));
+    }
 }
