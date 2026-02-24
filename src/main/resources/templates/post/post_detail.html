@@ -122,7 +122,8 @@
                             </a>
                             <a th:href="@{/posts/{no}/delete(no=${post.no})}"
                                 class="flex items-center gap-1 text-red-500 hover:text-red-400 transition-colors font-bold"
-                                onclick="return confirm('정말로 삭제하시겠습니까?')">
+                                onclick="return confirm('Do you really want to delete this post?')">
+
                                 <span class="material-symbols-outlined text-base">delete</span>
                                 Delete
                             </a>

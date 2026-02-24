@@ -66,6 +66,7 @@ public class PostController {
         PostUpdateDto updateDto = new PostUpdateDto(post.title(), post.content());
 
         model.addAttribute("postUpdateDto", updateDto);
+        model.addAttribute("post", post);
         model.addAttribute("no", no);
         return "post/post_edit_form";
     }
