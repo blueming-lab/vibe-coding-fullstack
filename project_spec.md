@@ -2,54 +2,59 @@
 
 ## 1. 프로젝트 개요
 - **프로젝트 명:** VibeApp
-- **설명:** 최소한의 기능으로 구성된 스프링부트 애플리케이션 생성 프로젝트.
-- **주요 목표:** 최신 기술 스택을 적용한 스프링부트 애플리케이션의 기본 구조를 제공함.
+- **설명:** 풍부한 디자인과 게시판 기능을 포함한 스프링부트 풀스택 애플리케이션.
+- **주요 목표:** 최신 기술 스택(Spring Boot 4, Thymeleaf, Tailwind CSS)을 활용한 프리미엄 UI 기반의 게시판 시스템 구축.
 
 ## 2. 기술 스택
-- **언어 (Language):** Java
-- **JDK 버전:** JDK 25 이상
-- **프레임워크:** Spring Boot 4.0.1 이상
-- **빌드 도구 (Build Tool):** Gradle 9.3.0 이상
-- **DSL:** Groovy DSL 사용
-- **설정 파일 형식:** YAML (`application.yml`)
+- **언어 (Language):** Java 25
+- **프레임워크:** Spring Boot 4.0.1
+- **빌드 도구 (Build Tool):** Gradle 9.3.0 (Groovy DSL)
+- **템플릿 엔진:** Thymeleaf
+- **스타일링 (UI):** Tailwind CSS (CDN), Vanilla CSS, Material Symbols Outlined
+- **설정 파일:** YAML (`application.yml`)
 
-## 3. 프로젝트 메타데이터
-- **그룹 (Group ID):** `com.example`
-- **아티팩트 (Artifact ID):** `vibeapp`
-- **버전 (Version):** `0.0.1-SNAPSHOT`
-- **패키지 명:** `com.example.vibeapp`
-- **메인 클래스 명:** `VibeApp`
-- **설명:** 최소 기능 스프링부트 애플리케이션을 생성하는 프로젝트다.
+## 3. 주요 기능
+- **Home:** 프리미엄 감성의 메인 홈 화면.
+- **게시판 (Post):**
+  - CRUD: 게시글 목록 조회, 상세 조회, 작성, 수정, 삭제.
+  - 페이징: 페이지당 5개의 게시글 출력 및 네비게이션 처리.
+  - 디자인: Glassmorphism 디자인 및 애니메이션 효과 적용.
 
 ## 4. 빌드 구성 (Build Configuration)
-### 플러그인 (Plugins)
-- `org.springframework.boot`: Spring Boot 플러그인 (버전 4.0.1+)
-- `io.spring.dependency-management`: Spring Boot 버전에 맞춘 의존성 관리 플러그인
-- `java`: Java 지원 플러그인
-
 ### 의존성 (Dependencies)
-- **핵심:** 최소 기능 구현 프로젝트로, 초기 추가 의존성 없음 (최소 구성)
+- `spring-boot-starter-web`: 웹 애플리케이션 구축을 위한 핵심 의존성.
+- `spring-boot-starter-thymeleaf`: 서버 사이드 템플릿 엔진.
+- `spring-boot-starter-test`: 단위 및 통합 테스트 지원.
 
-## 5. 권장 디렉토리 구조
+## 5. 프로젝트 구조 (Feature-based)
 ```text
 vibeapp/
-├── gradle/
 ├── src/
 │   ├── main/
-│   │   ├── java/
-│   │   │   └── com/example/vibeapp/
-│   │   │       └── VibeApp.java
+│   │   ├── java/com/example/vibeapp/
+│   │   │   ├── VibeApp.java            # 메인 클래스
+│   │   │   ├── home/
+│   │   │   │   └── HomeController.java
+│   │   │   └── post/
+│   │   │       ├── Post.java            # 엔티티 (In-memory)
+│   │   │       ├── PostController.java
+│   │   │       ├── PostRepository.java
+│   │   │       └── PostService.java
 │   │   └── resources/
+│   │       ├── templates/
+│   │       │   ├── home/
+│   │       │   │   └── home.html
+│   │       │   └── post/
+│   │       │       ├── posts.html
+│   │       │       ├── post_detail.html
+│   │       │       ├── post_new_form.html
+│   │       │       └── post_edit_form.html
 │   │       └── application.yml
-│   └── test/
-│       └── java/
-│           └── com/example/vibeapp/
-│               └── VibeAppTests.java
 ├── build.gradle
-├── settings.gradle
-└── gradlew
+└── project_spec.md
 ```
 
-## 6. 설정 세부사항
-- **위치:** `src/main/resources/application.yml`
-- **내용:** 애플리케이션 구동을 위한 최소 설정 값 포함
+## 6. 개발 관례
+- **패키지 구조:** 기능 단위(Feature-based) 패키지 분리 (`home`, `post`).
+- **메서드 명명:** 스프링 표준 관례 준수 (`getPosts`, `showCreateForm`, `updatePost` 등).
+- **Git Commit:** Conventional Commits 규격 준수.
