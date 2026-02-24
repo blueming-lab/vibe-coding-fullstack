@@ -131,7 +131,7 @@
                     <a th:href="@{/posts(page=${currentPage - 1})}"
                         th:classappend="${currentPage <= 1} ? 'pointer-events-none opacity-30' : 'hover:bg-white/10'"
                         class="flex h-10 w-10 items-center justify-center rounded-lg glass-effect text-slate-300 transition-all border border-white/10">
-                        <span class="material-symbols-outlined">chevron_left</span>
+                        <span class="material-symbols-outlined">arrow_back</span>
                     </a>
 
                     <!-- Page Numbers -->
@@ -148,7 +148,7 @@
                     <a th:href="@{/posts(page=${currentPage + 1})}"
                         th:classappend="${currentPage >= totalPages} ? 'pointer-events-none opacity-30' : 'hover:bg-white/10'"
                         class="flex h-10 w-10 items-center justify-center rounded-lg glass-effect text-slate-300 transition-all border border-white/10">
-                        <span class="material-symbols-outlined">chevron_right</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
                     </a>
                 </div>
 
