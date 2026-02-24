@@ -150,6 +150,15 @@
                                 placeholder="Enter content"></textarea>
                         </div>
 
+                        <!-- Editable: Tags -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-400 mb-2">Tags</label>
+                            <input type="text" th:field="*{tags}"
+                                class="w-full rounded-xl p-4 input-glass focus:ring-2 focus:ring-primary/20 outline-none"
+                                placeholder="Enter tags separated by commas (e.g., Spring, Java, Web)">
+                            <p class="mt-2 text-xs text-slate-500 italic">Separate tags with commas (,)</p>
+                        </div>
+
                         <!-- Buttons -->
                         <div class="flex items-center gap-4 pt-6 border-t border-white/10">
                             <button type="submit"

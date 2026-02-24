@@ -42,7 +42,7 @@ public class PostController {
 
     @GetMapping("/posts/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("postCreateDto", new PostCreateDto("", ""));
+        model.addAttribute("postCreateDto", new PostCreateDto("", "", ""));
         return "post/post_new_form";
     }
 
@@ -63,7 +63,7 @@ public class PostController {
             return "redirect:/posts";
         }
 
-        PostUpdateDto updateDto = new PostUpdateDto(post.title(), post.content());
+        PostUpdateDto updateDto = new PostUpdateDto(post.title(), post.content(), post.tags());
 
         model.addAttribute("postUpdateDto", updateDto);
         model.addAttribute("post", post);

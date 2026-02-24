@@ -5,16 +5,17 @@ import com.example.vibeapp.post.dto.PostListDto;
 import com.example.vibeapp.post.dto.PostResponseDto;
 import com.example.vibeapp.post.dto.PostUpdateDto;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final PostTagRepository postTagRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, PostTagRepository postTagRepository) {
         this.postRepository = postRepository;
+        this.postTagRepository = postTagRepository;
     }
 
     public List<PostListDto> getPostsByPage(int page, int size) {
@@ -39,12 +40,38 @@ public class PostService {
 
     public PostResponseDto getPost(Long no) {
         Post post = postRepository.findById(no);
-        return post != null ? PostResponseDto.from(post) : null;
+        if (post == null)
+            return null;
+
+        List<PostTag> tags = postTagRepository.findByPostNo(no);
+        String tagsString = tags.stream()
+                .map(PostTag::getTagName)
+                .collect(Collectors.joining(", "));
+
+        return PostResponseDto.from(post, tagsString);
     }
 
     public void createPost(PostCreateDto createDto) {
         Post post = createDto.toEntity();
         postRepository.save(post);
+
+        if (createDto.tags() != null && !createDto.tags().isBlank()) {
+            saveTags(post.getNo(), createDto.tags());
+        }
+    }
+
+    private void saveTags(Long postNo, String tagsString) {
+        String[] tags = tagsString.split(",");
+        for (String tagName : tags) {
+            String trimmedTag = tagName.trim();
+            if (!trimmedTag.isEmpty()) {
+                PostTag postTag = new PostTag();
+                postTag.setPostNo(postNo);
+                postTag.setTagName(trimmedTag);
+                postTag.setId(null); // id is auto-increment
+                postTagRepository.save(postTag);
+            }
+        }
     }
 
     public void updatePost(Long no, PostUpdateDto updateDto) {
@@ -52,6 +79,11 @@ public class PostService {
         if (post != null) {
             updateDto.updateEntity(post);
             postRepository.update(no, post.getTitle(), post.getContent());
+
+            postTagRepository.deleteByPostNo(no);
+            if (updateDto.tags() != null && !updateDto.tags().isBlank()) {
+                saveTags(no, updateDto.tags());
+            }
         }
     }
 

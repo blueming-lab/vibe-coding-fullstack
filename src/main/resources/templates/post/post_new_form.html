@@ -93,6 +93,14 @@
                                 placeholder="Write your post content here..."></textarea>
                         </div>
 
+                        <div>
+                            <label for="tags" class="block text-sm font-bold text-slate-300 mb-3 ml-1">Tags</label>
+                            <input type="text" th:field="*{tags}" id="tags"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-lg"
+                                placeholder="Enter tags separated by commas (e.g., Spring, Java, Web)">
+                            <p class="mt-2 text-xs text-slate-500 ml-1 italic">Separate tags with commas (,)</p>
+                        </div>
+
                         <div class="pt-4 flex flex-col sm:flex-row items-center gap-4">
                             <button type="submit"
                                 class="w-full sm:w-auto px-10 py-4 bg-primary text-white font-black rounded-xl hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20 text-lg">
