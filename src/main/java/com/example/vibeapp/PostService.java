@@ -31,4 +31,8 @@ public class PostService {
         post.setViews(0);
         postRepository.save(post);
     }
+
+    public void updatePost(Long no, String title, String content) {
+        postRepository.update(no, title, content);
+    }
 }

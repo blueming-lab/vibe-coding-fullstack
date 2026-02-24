@@ -44,4 +44,15 @@ public class PostRepository {
         post.setNo(nextNo);
         posts.add(post);
     }
+
+    public void update(Long no, String title, String content) {
+        posts.stream()
+                .filter(post -> post.getNo().equals(no))
+                .findFirst()
+                .ifPresent(post -> {
+                    post.setTitle(title);
+                    post.setContent(content);
+                    post.setUpdatedAt(LocalDateTime.now());
+                });
+    }
 }

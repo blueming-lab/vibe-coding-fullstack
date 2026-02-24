@@ -115,6 +115,11 @@
                                 th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm')}">2024-01-01</span>
                         </div>
                         <div class="flex gap-4">
+                            <a th:href="@{/posts/{no}/edit(no=${post.no})}"
+                                class="flex items-center gap-1 text-primary hover:text-blue-400 transition-colors font-bold">
+                                <span class="material-symbols-outlined text-base">edit</span>
+                                Edit
+                            </a>
                             <button class="hover:text-primary transition-colors">Report</button>
                             <button class="hover:text-primary transition-colors">Share</button>
                         </div>

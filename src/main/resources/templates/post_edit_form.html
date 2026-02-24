@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title th:text="'Edit Post: ' + ${post.title} + ' | Vibe Coding'">Edit Post | Vibe Coding</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-dark": "#0a0c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0c10;
+        }
+
+        .glass-effect {
+            background: rgba(25, 38, 51, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bg-mesh {
+            background-image:
+                radial-gradient(at 0% 0%, rgba(19, 127, 236, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+        }
+
+        .input-glass {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(19, 127, 236, 0.5);
+            box-shadow: 0 0 0 2px rgba(19, 127, 236, 0.2);
+        }
+
+        .input-readonly {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-slate-100 selection:bg-primary/30 min-h-screen bg-mesh">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Navigation -->
+        <header class="glass-effect border-b border-white/5 px-6 lg:px-20 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <a href="/"
+                    class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-2xl">auto_awesome</span>
+                </a>
+                <h2 class="text-xl font-extrabold tracking-tight text-white">Vibe Coding</h2>
+            </div>
+            <nav class="flex items-center gap-6">
+                <a href="/" class="text-sm font-semibold text-slate-300 hover:text-primary transition-colors">Home</a>
+                <a href="/posts"
+                    class="text-sm font-semibold text-slate-300 hover:text-primary transition-colors">Posts</a>
+            </nav>
+        </header>
+
+        <main class="flex-1 py-16 px-6 lg:px-20">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8">
+                    <a th:href="@{/posts/{no}(no=${post.no})}"
+                        class="inline-flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Back to Detail
+                    </a>
+                </div>
+
+                <div class="glass-effect rounded-3xl p-8 md:p-12 border border-white/5 shadow-2xl">
+                    <h1 class="text-3xl font-black mb-10 tracking-tight text-white flex items-center gap-3">
+                        <span class="material-symbols-outlined text-3xl text-primary">edit_note</span>
+                        Edit Post
+                    </h1>
+
+                    <form th:action="@{/posts/{no}/save(no=${post.no})}" method="post" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Read Only: No -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-400 mb-2">Post Number</label>
+                                <input type="text" readonly class="w-full rounded-xl p-4 input-readonly"
+                                    th:value="${post.no}">
+                            </div>
+                            <!-- Read Only: Created At -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-400 mb-2">Created Date</label>
+                                <input type="text" readonly class="w-full rounded-xl p-4 input-readonly"
+                                    th:value="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">
+                            </div>
+                            <!-- Read Only: Updated At -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-400 mb-2">Updated Date</label>
+                                <input type="text" readonly class="w-full rounded-xl p-4 input-readonly"
+                                    th:value="${post.updatedAt != null ? #temporals.format(post.updatedAt, 'yyyy-MM-dd') : ''}">
+                            </div>
+                        </div>
+
+                        <!-- Read Only: Views -->
+                        <div class="w-32">
+                            <label class="block text-sm font-bold text-slate-400 mb-2">Views</label>
+                            <input type="text" readonly class="w-full rounded-xl p-4 input-readonly"
+                                th:value="${post.views}">
+                        </div>
+
+                        <!-- Editable: Title -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-400 mb-2">Title</label>
+                            <input type="text" name="title"
+                                class="w-full rounded-xl p-4 input-glass focus:ring-2 focus:ring-primary/20 outline-none"
+                                th:value="${post.title}" placeholder="Enter title">
+                        </div>
+
+                        <!-- Editable: Content -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-400 mb-2">Content</label>
+                            <textarea name="content" rows="8"
+                                class="w-full rounded-xl p-4 input-glass focus:ring-2 focus:ring-primary/20 outline-none resize-none"
+                                th:text="${post.content}" placeholder="Enter content"></textarea>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex items-center gap-4 pt-6 border-t border-white/10">
+                            <button type="submit"
+                                class="flex-1 md:flex-none px-8 py-4 rounded-xl bg-primary text-white font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">save</span>
+                                Save Changes
+                            </button>
+                            <a th:href="@{/posts/{no}(no=${post.no})}"
+                                class="flex-1 md:flex-none px-8 py-4 rounded-xl bg-white/5 text-slate-300 font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 border border-white/5">
+                                <span class="material-symbols-outlined">cancel</span>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 py-12 px-6 lg:px-20 glass-effect mt-20">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <div class="flex h-8 w-8 items-center justify-center rounded bg-primary text-white">
+                        <span class="material-symbols-outlined text-lg">auto_awesome</span>
+                    </div>
+                    <h2 class="text-lg font-bold tracking-tight text-white">Vibe Coding</h2>
+                </div>
+                <div class="text-sm text-slate-500">
+                    © 2026 Vibe Coding. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
