@@ -5,6 +5,7 @@ import com.example.vibeapp.post.dto.PostListDto;
 import com.example.vibeapp.post.dto.PostResponseDto;
 import com.example.vibeapp.post.dto.PostUpdateDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,7 @@ public class PostService {
         return PostResponseDto.from(post, tagsString);
     }
 
+    @Transactional
     public void createPost(PostCreateDto createDto) {
         Post post = createDto.toEntity();
         postRepository.save(post);
@@ -74,6 +76,7 @@ public class PostService {
         }
     }
 
+    @Transactional
     public void updatePost(Long no, PostUpdateDto updateDto) {
         Post post = postRepository.findById(no);
         if (post != null) {
