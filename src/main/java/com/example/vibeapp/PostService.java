@@ -12,10 +12,21 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public List<Post> getAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        posts.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
-        return posts;
+    public List<Post> getPostsByPage(int page, int size) {
+        List<Post> allPosts = postRepository.findAll();
+        allPosts.sort((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()));
+
+        int fromIndex = (page - 1) * size;
+        if (allPosts.size() <= fromIndex) {
+            return List.of();
+        }
+
+        return allPosts.subList(fromIndex, Math.min(fromIndex + size, allPosts.size()));
+    }
+
+    public int getTotalPages(int size) {
+        int totalPosts = postRepository.findAll().size();
+        return (int) Math.ceil((double) totalPosts / size);
     }
 
     public Post getPostByNo(Long no) {
